@@ -1,14 +1,16 @@
 <script lang="ts">
+	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
 	import AddToDo from '../components/AddToDo.svelte';
-	import ToDoList from '../components/ToDoList.svelte';
 	import FilterMenu from '../components/FilterMenu.svelte';
 	import PieChart from '../components/PieChart.svelte';
+	import ToDoList from '../components/ToDoList.svelte';
 	import {
+		createToDoFromTitle,
 		filterCompleted,
 		filterNotCompleted,
-		createToDoFromTitle,
-		type ToDo,
-		type Filter
+		type Filter,
+		type ToDo
 	} from '../models';
 	import { errorStore, filterStore, toDosStore } from '../store';
 
@@ -23,6 +25,10 @@
 				return todoList;
 		}
 	}
+
+	onMount(() => {
+		toDosStore.set($page.data.todos);
+	});
 
 	let filter: Filter;
 	filterStore.subscribe((filterValue) => (filter = filterValue));
@@ -71,14 +77,6 @@
 			toDosStore.update((toDosValues) => toDosValues.filter((td) => td.id !== todo.id));
 		}
 	};
-
-	//   const onCleanup = useCallback(
-	//     (e: React.MouseEvent<HTMLButtonElement>) => {
-	//       e.preventDefault()
-	//       dispatch(deleteCompletedToDoAction())
-	//     },
-	//     [dispatch]
-	//   )
 </script>
 
 <section class="row justify-content-center">

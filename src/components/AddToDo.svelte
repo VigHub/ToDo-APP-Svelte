@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { createForm } from "svelte-forms-lib";
-	import * as yup from "yup";
+	import { createForm } from 'svelte-forms-lib';
+	import * as yup from 'yup';
 
 	export let onAdd: (title: string) => void;
 	export let disabled: boolean;
@@ -13,8 +13,9 @@
 		validationSchema: schema,
 		onSubmit: (values) => {
 			onAdd(values.title);
+			values.title = '';
 			handleReset();
-		},
+		}
 	});
 </script>
 
@@ -36,7 +37,7 @@
 			<button class="btn btn-svelte" type="submit" disabled={!$isValid}> Aggiungi </button>
 		</div>
 		{#if $errors.title}
-		<label class="text-danger" for="title">{$errors.title}</label>
+			<label class="text-danger" for="title">{$errors.title}</label>
 		{/if}
 	</fieldset>
 </form>

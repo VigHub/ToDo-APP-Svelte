@@ -25,6 +25,12 @@
 				}}
 			/>
 			<label class="form-check-label" for="title">{todo.title}</label>
+			{#if todo.description}
+				<span class="caption ms-5">
+					{todo.description}
+				</span>
+				<br />
+			{/if}
 		</div>
 		<div>
 			<span class="caption">
@@ -32,7 +38,7 @@
 			</span>
 			{#if todo.completed && todo.completed_at}
 				<span class="caption ms-1">
-					- Completato {formatDistance(todo.completed_at, now, { addSuffix: true, locale: it })}
+					- Completato {formatDistance(now, todo.completed_at, { addSuffix: true, locale: it })}
 				</span>
 			{/if}
 		</div>
