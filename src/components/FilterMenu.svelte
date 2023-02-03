@@ -1,30 +1,25 @@
 <script lang="ts">
 	import { filterStore, toDosStore } from '../store';
-
-	import type { Filter } from '../models';
-
-	let filter: Filter;
-	filterStore.subscribe((filterValue) => (filter = filterValue));
 </script>
 
 <div class="btn-group">
 	<button
-		class={'btn btn-sm ' + (filter === 'ALL' ? 'btn-svelte' : 'btn-outline-danger')}
+		class={'btn btn-sm ' + ($filterStore === 'ALL' ? 'btn-svelte' : 'btn-outline-danger')}
 		on:click={() => filterStore.set('ALL')}
 	>
-		Tutti
+		All
 	</button>
 	<button
-		class={'btn btn-sm ' + (filter === 'COMPLETED' ? 'btn-svelte' : 'btn-outline-danger')}
+		class={'btn btn-sm ' + ($filterStore === 'COMPLETED' ? 'btn-svelte' : 'btn-outline-danger')}
 		on:click={() => filterStore.set('COMPLETED')}
 	>
-		Completati
+		Completed
 	</button>
 	<button
-		class={'btn btn-sm ' + (filter === 'NOT_COMPLETED' ? 'btn-svelte' : 'btn-outline-danger')}
+		class={'btn btn-sm ' + ($filterStore === 'NOT_COMPLETED' ? 'btn-svelte' : 'btn-outline-danger')}
 		on:click={() => filterStore.set('NOT_COMPLETED')}
 	>
-		Non completati
+		Not completed
 	</button>
 </div>
 <div class="btn-group ms-1">
@@ -34,7 +29,7 @@
 			toDosStore.update((toDosValues) => toDosValues.filter((todo) => !todo.completed));
 		}}
 	>
-		Rimuovi completati
+		Remove completed
 	</button>
 </div>
 <div>

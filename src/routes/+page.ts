@@ -1,24 +1,14 @@
-import { parseISO } from 'date-fns';
-import type { ToDo } from 'src/models';
+import { BASE_URL, convert2ToDo } from '../lib/api';
+import type { ToDo } from '../models';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ fetch }) => {
+	let todos: ToDo[] = [];
 	try {
-		const res = await fetch('http://localhost:5000/api/todo');
-		const resJson = await res.json();
-		//console.log(resJson);
-		return {
-			todos: resJson.map(
-				(r: any) =>
-					({
-						...r,
-						created_at: parseISO(r.created_at),
-						completed_at: r.completed_at ? parseISO(r.completed_at) : undefined
-					} as ToDo)
-			)
-		};
-	} catch (error) {
-		console.log(error);
-	}
-	return { todos: [] };
+		const response = await fetch(BASE_URL, { method: 'GET' });
+		const res = await response.json();
+		todos = res.map(convert2ToDo);
+		console.log(todos);
+	} catch (error) {}
+	return { todos };
 };

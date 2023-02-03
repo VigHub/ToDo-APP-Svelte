@@ -31,10 +31,10 @@
 					class={'form-control ' + ($errors.title ? 'is-invalid' : '')}
 					on:keyup={handleChange}
 				/>
-				<label for="todo-input">Inserisci il todo</label>
+				<label for="todo-input">Insert new ToDo</label>
 			</div>
 
-			<button class="btn btn-svelte" type="submit" disabled={!$isValid}> Aggiungi </button>
+			<button class="btn btn-svelte" type="submit" disabled={!$isValid}>Add</button>
 		</div>
 		{#if $errors.title}
 			<label class="text-danger" for="title">{$errors.title}</label>

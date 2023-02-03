@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { onMount } from 'svelte';
+	import { sendAdd, sendDelete, sendUpdate } from '../lib/api';
 	import AddToDo from '../components/AddToDo.svelte';
 	import FilterMenu from '../components/FilterMenu.svelte';
 	import PieChart from '../components/PieChart.svelte';
@@ -26,37 +26,28 @@
 		}
 	}
 
-	onMount(() => {
-		toDosStore.set($page.data.todos);
-	});
+	toDosStore.set($page.data.todos as ToDo[]);
 
-	let filter: Filter;
-	filterStore.subscribe((filterValue) => (filter = filterValue));
-
-	let toDos: ToDo[];
-	let completedList: ToDo[] = [];
-	let filteredList: ToDo[] = [];
-	toDosStore.subscribe((toDosValues) => {
-		toDos = toDosValues;
-		completedList = filterToDos(toDosValues, 'COMPLETED');
-		filteredList = filterToDos(toDosValues, filter);
-	});
-	filterStore.subscribe((filterValue) => {
-		filteredList = filterToDos(toDos, filterValue);
-	});
+	$: toDos = $toDosStore;
+	$: completedList = filterToDos(toDos, 'COMPLETED');
+	$: filteredList = filterToDos(toDos, $filterStore);
 
 	let error: string;
 	errorStore.subscribe((errorValue) => (error = errorValue));
 
-	const onAdd = (title: string) => {
-		toDosStore.update((toDosValues) => {
-			toDosValues.push(createToDoFromTitle(title));
-			return toDosValues;
-		});
+	const onAdd = async (title: string) => {
+		const todo = createToDoFromTitle(title);
+		const result = await sendAdd(todo);
+		if (result) {
+			toDosStore.update((toDosValues) => {
+				toDosValues.push(todo);
+				return toDosValues;
+			});
+		}
 	};
 
-	const onClick = (itemNumber: number) => {
-		const todo = toDos?.[itemNumber];
+	const onClick = async (itemNumber: number) => {
+		const todo = toDos[itemNumber];
 		if (todo) {
 			todo.completed = !todo.completed;
 			if (todo.completed) {
@@ -64,17 +55,23 @@
 			} else {
 				delete todo.completed_at;
 			}
-			toDosStore.update((toDosValues) => {
-				toDosValues[itemNumber] = todo;
-				return toDosValues;
-			});
+			const result = await sendUpdate(todo);
+			if (result) {
+				toDosStore.update((toDosValues) => {
+					toDosValues[itemNumber] = todo;
+					return toDosValues;
+				});
+			}
 		}
 	};
 
 	const onDelete = async (index: number) => {
-		const todo = toDos?.[index];
+		const todo = toDos[index];
 		if (todo) {
-			toDosStore.update((toDosValues) => toDosValues.filter((td) => td.id !== todo.id));
+			const result = await sendDelete(todo.id);
+			if (result) {
+				toDosStore.update((toDosValues) => toDosValues.filter((td) => td.id !== todo.id));
+			}
 		}
 	};
 </script>
@@ -93,7 +90,7 @@
 			</div>
 			<div class="col-12 col-lg-3 d-lg-flex justify-content-end align-items-center mt-2 mt-lg-0">
 				<span>
-					Completati {completedList.length} di {toDos?.length ?? 0}
+					Completed {completedList.length} of {toDos?.length ?? 0}
 				</span>
 			</div>
 		</div>
@@ -113,8 +110,8 @@
 >
 	<div class="col-12 col-md-3">
 		<PieChart
-			completed={completedList.length}
-			notCompleted={(toDos?.length ?? 0) - completedList.length}
+			completed={filterCompleted(toDos).length}
+			notCompleted={toDos.length - filterCompleted(toDos).length}
 		/>
 	</div>
 </section>

@@ -10,7 +10,7 @@
 {:else}
 	<section class="row justify-content-center my-4">
 		<div class="col-6 text-center">
-			<p>Si è verificato un errore, prova più tardi</p>
+			<p>Something went wrong, try later</p>
 			<p>
 				<small>{error}</small>
 			</p>

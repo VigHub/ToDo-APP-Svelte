@@ -6,7 +6,7 @@
 	export let notCompleted: number = 0;
 
 	$: chartData = {
-		labels: ['completati', 'non completati'],
+		labels: ['Completed', 'Not completed'],
 		datasets: [
 			{
 				data: [completed, notCompleted],

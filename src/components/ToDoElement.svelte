@@ -7,7 +7,6 @@
 	export let todo: ToDo;
 	export let onClick: (index: number) => void;
 	export let onDelete: (index: number) => void;
-	const now = new Date();
 </script>
 
 <li
@@ -24,32 +23,42 @@
 					onClick(index);
 				}}
 			/>
-			<label class="form-check-label" for="title">{todo.title}</label>
+			<label class="form-check-label" for="title" style="font-weight: bold;">{todo.title}</label>
 			{#if todo.description}
-				<span class="caption ms-5">
+				<br />
+				<span class="ms-4">
 					{todo.description}
 				</span>
 				<br />
 			{/if}
 		</div>
 		<div>
-			<span class="caption">
-				Creato {formatDistance(todo.created_at, now, { addSuffix: true, locale: it })}
+			<span class="caption todo-caption">
+				Created {formatDistance(todo.created_at, new Date(), { addSuffix: true })}
 			</span>
 			{#if todo.completed && todo.completed_at}
-				<span class="caption ms-1">
-					- Completato {formatDistance(now, todo.completed_at, { addSuffix: true, locale: it })}
+				<span class="caption ms-1 todo-caption">
+					- Completed {formatDistance(todo.completed_at, new Date(), { addSuffix: true })}
 				</span>
 			{/if}
 		</div>
 	</div>
 	<div class="btn-group">
-		<a href={`/todo/${todo.id}`} class="btn btn-link text-black-50">
+		<a
+			href={`/todo/${todo.id}`}
+			class="btn btn-link text-black-50"
+			data-toggle="tooltip"
+			data-placement="bottom"
+			title="Edit ToDo"
+		>
 			<i class="edit" />
 		</a>
 
 		<button
 			class="btn btn-link text-black-50"
+			data-toggle="tooltip"
+			data-placement="bottom"
+			title="Remove ToDo"
 			on:click={(e) => {
 				e.preventDefault();
 				onDelete(index);
@@ -59,3 +68,9 @@
 		</button>
 	</div>
 </li>
+
+<style>
+	.todo-caption {
+		font-size: 8pt;
+	}
+</style>

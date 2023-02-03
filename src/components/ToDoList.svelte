@@ -20,7 +20,7 @@
 {#if items.length == 0 && !isLoading}
 	<h3 class="text-center my-4">
 		<p class="opacity-50">
-			<small>Lista Vuota</small>
+			<small>Empty list</small>
 		</p>
 	</h3>
 {/if}

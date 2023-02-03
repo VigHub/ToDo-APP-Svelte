@@ -5,7 +5,7 @@
 
 <nav class="navbar  color-nav sticky-top">
 	<div class="container">
-		<span class="navbar-text">Svelte & SvelteKit per tutti (o quasi)</span>
+		<span class="navbar-text">Svelte & SvelteKit for (almost) everyone</span>
 	</div>
 </nav>
 
@@ -13,7 +13,7 @@
 	<section class="row justify-content-center ">
 		<div class="col-12 col-lg-6 text-center">
 			<h1 class="page-title">
-				<span>Svelte & SvelteKit<br />per tutti (o quasi)</span>
+				<span>Svelte & SvelteKit<br />for (almost) everyone</span>
 			</h1>
 		</div>
 	</section>
