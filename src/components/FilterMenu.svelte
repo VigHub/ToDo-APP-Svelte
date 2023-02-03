@@ -33,10 +33,17 @@
 	</button>
 </div>
 <div>
-	<button class="btn btn-link ms-1 text-dark" on:click={() => {}}>
-		<i class="bi bi-arrow-clockwise" />
+	<button class="btn btn-link ms-1 text-dark round-arrow" on:click={() => {}}>
+		<i class="bi bi-arrow-clockwise " />
 	</button>
 </div>
 
 <style>
+	.round-arrow {
+		transition: transform 0.5s ease-in-out;
+	}
+
+	.round-arrow:hover {
+		transform: rotate(360deg);
+	}
 </style>

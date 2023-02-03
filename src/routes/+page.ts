@@ -8,7 +8,6 @@ export const load: PageLoad = async ({ fetch }) => {
 		const response = await fetch(BASE_URL, { method: 'GET' });
 		const res = await response.json();
 		todos = res.map(convert2ToDo);
-		console.log(todos);
 	} catch (error) {}
 	return { todos };
 };

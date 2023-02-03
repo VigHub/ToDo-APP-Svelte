@@ -100,7 +100,7 @@
 <section class="row justify-content-center mb-4">
 	<div class="col-12 col-md-8">
 		<hr />
-		<ToDoList items={filteredList} {onClick} {onDelete} isLoading={!toDos && !error} />
+		<ToDoList items={filteredList} {onClick} {onDelete} />
 	</div>
 </section>
 

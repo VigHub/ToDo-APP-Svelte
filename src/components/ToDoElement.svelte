@@ -9,10 +9,7 @@
 	export let onDelete: (index: number) => void;
 </script>
 
-<li
-	class={'list-group-item d-flex justify-content-between align-items-center ' +
-		(todo.completed ? 'completed' : '')}
->
+<li class="list-group-item d-flex justify-content-between align-items-center todo ">
 	<div class="d-flex flex-column">
 		<div>
 			<input
@@ -23,10 +20,14 @@
 					onClick(index);
 				}}
 			/>
-			<label class="form-check-label" for="title" style="font-weight: bold;">{todo.title}</label>
+			<label
+				class={'form-check-label ' + (todo.completed ? 'completed' : '')}
+				for="title"
+				style="font-weight: bold;">{todo.title}</label
+			>
 			{#if todo.description}
 				<br />
-				<span class="ms-4">
+				<span class={'ms-4 ' + (todo.completed ? 'completed' : '')}>
 					{todo.description}
 				</span>
 				<br />
@@ -72,5 +73,16 @@
 <style>
 	.todo-caption {
 		font-size: 8pt;
+	}
+
+	.completed {
+		text-decoration: line-through;
+	}
+
+	.todo:hover {
+		border: 2pt;
+		border-style: solid;
+		border-color: black;
+		background-color: hsl(0, 0%, 86%);
 	}
 </style>
